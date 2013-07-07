@@ -1,23 +1,23 @@
 <script type="text/ng-template"  id="tree_nodes">
-    <a ng-click="toggleChildNodesVisibility($event)" ng-show="child.children" ng-class="{true:'icon-expand-alt', false:'icon-collapse-alt', '':''}[collapsedAtInit]" class="icon-large"></a>
+    <a ng-click="toggleChildNodesVisibility($event)" ng-show="node.childNodes" ng-class="{true:'icon-expand-alt', false:'icon-collapse-alt', '':''}[collapsedAtInit]" class="icon-large"></a>
    
 
-    <input type="checkbox" ng-model="child.hasBeenAdded" ng-change="addSingle(child, child.hasBeenAdded)">
-     <span>{{child.firstName}} </span> <span class="user-role" ng-show="child.children">({{child.role}})</span>
-    <span ng-show="child.children">
-      <input type="button" class="btn btn-mini" ng-click="addAndIncludeChildNodes(child, true)" value="add all"> 
-      <input type="button" class="btn btn-mini" ng-click="addAndIncludeChildNodes(child, false)" value="remove all"> 
+    <input type="checkbox" ng-model="node.hasBeenAdded" ng-change="addSingle(node, node.hasBeenAdded)">
+     <span>{{node.firstName}} </span> <span class="user-role" ng-show="node.childNodes">({{node.role}})</span>
+    <span ng-show="node.childNodes">
+      <input type="button" class="btn btn-mini" ng-click="addAndIncludeChildNodes(node, true)" value="add all"> 
+      <input type="button" class="btn btn-mini" ng-click="addAndIncludeChildNodes(node, false)" value="remove all"> 
     </span></span>
 
     <ul ng-class="{true:'collapsed', false:'', '':''}[collapsedAtInit]">
-        <li ng-repeat="child in child.children" ng-include="'tree_nodes'" id="nodeId-{{child.id}}"></li>
+        <li ng-repeat="node in node.childNodes" ng-include="'tree_nodes'"></li>
     </ul>
 </script>
 
 
 <div class="tree-view">
 
-  <div style="height:60px;">
+  <div style="height:50px;">
     <span>added Users: {{allActiveNodes.length}}</span><br/>
     <span ng-repeat="activeUser in allActiveNodes" style="margin: 5px;" class="label label-info">
       {{activeUser.firstName}} 
@@ -25,10 +25,6 @@
     </span>
   </div>
 
-  <input type="button" value="expand all" class="btn btn-mini btn-primary" ng-click="expandTree()" > 
-  <input type="button" value="collapse all" class="btn btn-mini btn-primary" ng-click="collapseTree()" > 
-  <br/>
-  <br/>
   <ul>
     
     <a ng-click="toggleChildNodesVisibility($event)" ng-class="{true:'icon-expand-alt', false:'icon-collapse-alt', '':''}[collapsedAtInit]" class="icon-large"></a>
@@ -38,7 +34,7 @@
       <input type="button" class="btn btn-mini" ng-click="addAndIncludeChildNodes(users, false)" value="remove all">  
     
     <ul ng-class="{true:'collapsed', false:'', '':''}[collapsedAtInit]">
-      <li ng-repeat="child in users.children" ng-include="'tree_nodes'"></li>
+      <li ng-repeat="node in users.childNodes" ng-include="'tree_nodes'"></li>
     </ul>
   </ul>
 </div>

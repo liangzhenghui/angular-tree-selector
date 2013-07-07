@@ -5,7 +5,7 @@ component.directive('treeSelector', function(){
     restrict: "E",
     scope: {
       users: "=",
-      collapsedAtInit: '@'
+      collapsedAtInit: '='
     },
     templateUrl: "js/components/tree-selector/tree-selector-tpl.html",
     link: function(scope, element, attr) {
@@ -35,14 +35,6 @@ component.directive('treeSelector', function(){
           clickedElement.siblings("ul").toggle();
         }
 
-        scope.expandTree = function() {
-          scope.collapsedAtInit = false;
-        }
-
-        scope.collapseTree = function () {
-          scope.collapsedAtInit = true;
-        }
-
         scope.removeNodeFromActiveNodes = function(node) {
           var index = scope.allActiveNodes.indexOf(node);
           scope.allActiveNodes.splice(index,1);
@@ -55,14 +47,14 @@ component.directive('treeSelector', function(){
         function getAllChildNodesFromNode(node, childNodes) {
           var childNodes = childNodes || [];
 
-          if(!node.children) {
+          if(!node.childNodes) {
             return null;
           }
 
-          for(var i = 0; i < node.children.length; i++) {
-            childNodes.push(node.children[i]);
+          for(var i = 0; i < node.childNodes.length; i++) {
+            childNodes.push(node.childNodes[i]);
             // add the childNodes from the childNode if available
-            node.children[i].children && getAllChildNodesFromNode(node.children[i],childNodes);
+            node.childNodes[i].childNodes && getAllChildNodesFromNode(node.childNodes[i],childNodes);
           }
 
           return childNodes;

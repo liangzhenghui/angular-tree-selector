@@ -29,11 +29,10 @@ controller.controller('viewCtrl1', function($scope, $http) {
     for(var id in nodes) {
         var node = nodes[id];
         if("managerDTO" in node) {
-            // Add to children of parent
+            // Add to childNodes of parent
             var parent = nodes[node.managerDTO.id];
-            parent.hasAllChildrenAdded = false;
             node.hasBeenAdded = false;
-            (parent.children = parent.children || []).push(node);
+            (parent.childNodes = parent.childNodes || []).push(node);
             delete node.managerDTO;
         }
     }
