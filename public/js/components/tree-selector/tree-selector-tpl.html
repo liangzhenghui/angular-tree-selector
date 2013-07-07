@@ -2,15 +2,17 @@
     <a ng-click="toggleChildNodesVisibility($event)" ng-show="node.childNodes" ng-class="{true:'icon-expand-alt', false:'icon-collapse-alt', '':''}[collapsedAtInit]" class="icon-large"></a>
    
 
-    <input type="checkbox" ng-model="node.hasBeenAdded" ng-change="addSingle(node, node.hasBeenAdded)">
-     <span>{{node.firstName}} </span> <span class="user-role" ng-show="node.childNodes">({{node.role}})</span>
+    <input type="checkbox" ng-model="node.hasBeenAdded" ng-change="addNode(node, node.hasBeenAdded)">
+    <span ng-class="{true: 'node-disabled', false: '', '':''}[node.hasBeenFiltered]">
+      <span>{{node.firstName}} </span> <span class="user-role" ng-show="node.childNodes">({{node.role}})</span>
+    </span>
     <span ng-show="node.childNodes">
       <input type="button" class="btn btn-mini" ng-click="addAndIncludeChildNodes(node, true)" value="add all"> 
       <input type="button" class="btn btn-mini" ng-click="addAndIncludeChildNodes(node, false)" value="remove all"> 
-    </span></span>
+    </span>
 
     <ul ng-class="{true:'collapsed', false:'', '':''}[collapsedAtInit]">
-        <li ng-repeat="node in node.childNodes" ng-include="'tree_nodes'"></li>
+        <li ng-repeat="node in node.childNodes" ng-include="'tree_nodes'" ng-show="!node.hasBeenFiltered && !node.childNodes"></li>
     </ul>
 </script>
 
@@ -25,11 +27,14 @@
     </span>
   </div>
 
-  <ul>
-    
+  <input type="text" ng-model="filterkeyword" placeholder="filter tree">
+
+  <ul> 
     <a ng-click="toggleChildNodesVisibility($event)" ng-class="{true:'icon-expand-alt', false:'icon-collapse-alt', '':''}[collapsedAtInit]" class="icon-large"></a>
-      <input type="checkbox" ng-model="users.hasBeenAdded" ng-change="addSingle(users, users.hasBeenAdded)">
-      <span>{{users.firstName}} </span><span class="user-role">({{users.role}})</span>
+      <input type="checkbox" ng-model="users.hasBeenAdded" ng-change="addNode(users, users.hasBeenAdded)">
+      <span ng-class="{true: 'node-disabled', false: '', '':''}[users.hasBeenFiltered]">
+        <span>{{users.firstName}} </span><span class="user-role">({{users.role}})</span>
+      </span>
       <input type="button" class="btn btn-mini" ng-click="addAndIncludeChildNodes(users, true)" value="add all"> 
       <input type="button" class="btn btn-mini" ng-click="addAndIncludeChildNodes(users, false)" value="remove all">  
     
@@ -56,6 +61,10 @@
   .user-role {
     font-size: 10pt;
     color: gray;
+  }
+
+  .node-disabled {
+    color: lightgray;
   }
 </style>
 

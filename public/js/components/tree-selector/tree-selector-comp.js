@@ -5,13 +5,13 @@ component.directive('treeSelector', function(){
     restrict: "E",
     scope: {
       users: "=",
-      collapsedAtInit: '='
+      collapsedAtInit: '@'
     },
     templateUrl: "js/components/tree-selector/tree-selector-tpl.html",
     link: function(scope, element, attr) {
         scope.allActiveNodes = [];
 
-        scope.addSingle = function(node, active) {
+        scope.addNode = function(node, active) {
           node.hasBeenAdded = active;
           addOrRemoveToActiveNodes(node, active);
         }
@@ -40,6 +40,13 @@ component.directive('treeSelector', function(){
           scope.allActiveNodes.splice(index,1);
           node.hasBeenAdded = false;
         }
+
+        scope.$watch('filterkeyword', function() {
+          if(scope.filterkeyword != undefined) {
+              filterTree();
+             scope.collapsedAtInit = false;
+          }          
+        });
 
         /**
         * Return all childNodes of a given node (as Array of Nodes)
@@ -81,6 +88,19 @@ component.directive('treeSelector', function(){
           return false;
         }
 
+        function filterTree(){
+          var allUsersAsList = getAllChildNodesFromNode(scope.users);
+          allUsersAsList.push(scope.users); //add the root user to the list 
+
+          allUsersAsList.forEach(function(user){
+            if(user.firstName.toLowerCase().indexOf(scope.filterkeyword.toLowerCase() || '') != -1) {
+              user.hasBeenFiltered = false
+            }
+            else {
+              user.hasBeenFiltered = true;
+            }
+          });
+        }
     }
     
   };

@@ -32,6 +32,7 @@ controller.controller('viewCtrl1', function($scope, $http) {
             // Add to childNodes of parent
             var parent = nodes[node.managerDTO.id];
             node.hasBeenAdded = false;
+            node.hasBeenFiltered = false;
             (parent.childNodes = parent.childNodes || []).push(node);
             delete node.managerDTO;
         }
